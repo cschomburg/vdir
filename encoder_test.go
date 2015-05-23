@@ -15,7 +15,7 @@ func TestMarshal(t *testing.T) {
 		Org:   "Bubba Gump Shrimp Co.",
 		Title: "Shrimp Man",
 		Photo: Photo{
-			Mediatype: "image/gif",
+			MediaType: "image/gif",
 			Data:      "http://www.example.com/dir_photos/my_photo.gif",
 		},
 		Telephones: []TypedValue{
@@ -42,7 +42,7 @@ func TestMarshal(t *testing.T) {
 				CountryName: "United States of America",
 			},
 		},
-		Emails: []TypedValue{
+		Email: []TypedValue{
 			{nil, "forrestgump@example.com"},
 		},
 	}

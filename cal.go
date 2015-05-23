@@ -7,27 +7,32 @@ type Calendar struct {
 	Profile  string `vdir:"vcalendar,profile"`
 	Version  string
 	ProdId   string
-	Events   []Event    `vdir:",object"`
-	ToDos    []Todo     `vdir:",object"`
-	Journals []Journal  `vdir:",object"`
-	FreeBusy []FreeBusy `vdir:",object"`
+	Timezone []Timezone `vdir:"vtimezone,object"`
+	Events   []Event    `vdir:"vevent,object"`
+	ToDos    []Todo     `vdir:"vtodo,object"`
+	Journals []Journal  `vdir:"vjournal,object"`
+	FreeBusy []FreeBusy `vdir:"vfreebusy,object"`
 }
 
 type Event struct {
-	Profile     string `vdir:"vevent,profile"`
-	UID         string
-	DTStamp     string
-	Organizer   Person
-	DTStart     string
-	DTEnd       string
-	Summary     string
-	Categories  []string
-	Description string
-	Method      string
-	Status      string
-	Class       string
-	Sequence    string
-	Alarms      []Alarm `vdir:",object"`
+	Profile      string `vdir:"vevent,profile"`
+	UID          string
+	DTStamp      DateTimeValue
+	Organizer    Person
+	DTStart      DateTimeValue
+	DTEnd        DateTimeValue
+	Location     string
+	Summary      string
+	Categories   []string
+	Description  string
+	Method       string
+	Status       string
+	Class        string
+	Sequence     string
+	Created      string
+	LastModified string  `vdir:"last-modified"`
+	Alarms       []Alarm `vdir:",object"`
+	RRule        RecurrenceRule
 }
 
 type Person struct {
@@ -46,7 +51,7 @@ type Alarm struct {
 
 type Todo struct {
 	Profile  string `vdir:"vtodo,profile"`
-	DTStamp  string
+	DTStamp  DateTimeValue
 	Sequence string
 	UID      string
 	Due      string
@@ -57,7 +62,7 @@ type Todo struct {
 
 type Journal struct {
 	Profile     string `vdir:"vjournal,profile"`
-	DTStamp     string
+	DTStamp     DateTimeValue
 	UID         string
 	Organizer   Person
 	Status      string
@@ -69,8 +74,37 @@ type Journal struct {
 type FreeBusy struct {
 	Profile   string `vdir:"vfreebusy,profile"`
 	Organizer Person
-	DTStart   string
-	DTEnd     string
+	DTStart   DateTimeValue
+	DTEnd     DateTimeValue
 	FreeBusy  []string `vdir:",multiple"`
 	Url       string
+}
+
+type Timezone struct {
+	Profile  string `vdir:"vtimezone,profile"`
+	TZId     string
+	Daylight []TimeZoneInfo `vdir:",object"`
+	Standard []TimeZoneInfo `vdir:",object"`
+}
+
+type TimeZoneInfo struct {
+	TZOffsetFrom string
+	TZOffsetTo   string
+	TZName       string
+	DTStart      string
+	RRule        RecurrenceRule
+}
+
+type RecurrenceRule struct {
+	Rule1 string
+	Rule2 string
+	Rule3 string
+	Rule4 string
+	Rule5 string
+}
+
+type DateTimeValue struct {
+	TZId  string `vdir:",param"`
+	Type  string `vdir:"value,param"`
+	Value string
 }

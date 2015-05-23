@@ -12,7 +12,8 @@ type Card struct {
 	Birthday      string       `vdir:"bday"`
 	Addresses     []Address    `vdir:"adr"`
 	Telephones    []TypedValue `vdir:"tel"`
-	Emails        []TypedValue
+	Email         []TypedValue
+	Url           []TypedValue
 	Title         string
 	Role          string
 	Org           string
@@ -20,6 +21,20 @@ type Card struct {
 	Note          string
 	URL           string
 	Photo         Photo
+
+	Rev    string
+	ProdId string
+	Uid    string
+
+	XICQ   string `vdir:"x-icq"`
+	XSkype string `vdir:"x-skype"`
+	IMPP   []IMPP
+}
+
+type IMPP struct {
+	Type         []string `vdir:",param"`
+	XServiceType string   `vdir:"x-service-type,param"`
+	Value        string
 }
 
 type Name struct {
@@ -32,7 +47,8 @@ type Name struct {
 
 type Photo struct {
 	Encoding  string `vdir:",param"`
-	Mediatype string `vdir:",param"`
+	MediaType string `vdir:",param"`
+	Type      string `vdir:",param"`
 	Value     string `vdir:",param"`
 	Data      string
 }
