@@ -195,7 +195,19 @@ func FromObject(v interface{}, o *Object) error {
 				}
 				rvi.SetString(o.Profile)
 			case "object":
-				// TODO: Unmarshaling of inner objects
+				if rvi.Kind() != reflect.Slice {
+					return errors.New("Cannot unmarshal object into " + rv.Type().String())
+				}
+				for _, so := range o.Objects {
+					if so.Profile != name {
+						continue
+					}
+					rvii := reflect.New(rvi.Type().Elem())
+					if err := FromObject(rvii.Interface(), so); err != nil {
+						return err
+					}
+					rvi.Set(reflect.Append(rvi, reflect.Indirect(rvii)))
+				}
 			default:
 				cls := props[name]
 				if cls == nil || len(cls) == 0 {

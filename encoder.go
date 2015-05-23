@@ -30,7 +30,10 @@ func (enc *Encoder) WriteObject(o *Object) error {
 	for _, p := range o.Properties {
 		enc.WriteContentLine(p)
 	}
-	enc.WriteContentLine(&ContentLine{"", "END", nil, StructuredValue{Value{"VCARD"}}})
+	for _, so := range o.Objects {
+		enc.WriteObject(so)
+	}
+	enc.WriteContentLine(&ContentLine{"", "END", nil, StructuredValue{Value{o.Profile}}})
 	return enc.err
 }
 
